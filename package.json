@@ -5,11 +5,17 @@
   "directories": {
     "test": "test"
   },
-  "dependencies": {},
+  "dependencies": {
+    "aws-sdk": "^2.825.0",
+    "joi": "^17.3.0",
+    "qs": "^6.9.4",
+    "uuid": "^8.3.2"
+  },
   "devDependencies": {
     "axios": "^0.21.1",
     "jest": "^26.6.3",
-    "lodash": "^4.17.20"
+    "lodash": "^4.17.20",
+    "serverless-openapi-documentation": "^0.4.0"
   },
   "scripts": {
     "test": "jest"
