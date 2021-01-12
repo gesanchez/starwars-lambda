@@ -1,0 +1,19 @@
+{
+  "name": "starwars-service",
+  "version": "1.0.0",
+  "description": "",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "axios": "^0.21.1",
+    "jest": "^26.6.3",
+    "lodash": "^4.17.20"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "Manuel Puicon",
+  "license": "MIT"
+}
