@@ -12,7 +12,7 @@ const dynamoDb = new AWS.DynamoDB.DocumentClient();
  * @description Funcion para crear un nuevo estudiante
  * @param {*} event 
  */
-module.exports.createUser = async (event) => {
+module.exports.createUser = async (event, context, callback) => {
   const { firstName, lastName, email } = qs.parse(event);
   try {
     const value = await Validator.validateAsync({firstName, lastName, email});
@@ -30,10 +30,16 @@ module.exports.createUser = async (event) => {
       Item: data,
     };
     await dynamoDb.put(candidateInfo).promise()
-    return data
+    callback(null, {
+      statusCode: 200,
+      body: JSON.stringify(data)
+    });
   }
   catch (err) {
-    return err.details;
+    callback(null, {
+      statusCode: 400,
+      body: JSON.stringify(err.details)
+    });
   }
 }
 
@@ -43,11 +49,14 @@ module.exports.createUser = async (event) => {
  * @description Funcion para listar estudiantes
  * @param {*} event 
  */
-module.exports.listUser = async (event) => {
+module.exports.listUser = async (event, context, callback) => {
     const candidateInfo = {
       TableName: process.env.STUDENT_TABLE,
       ProjectionExpression: "id, firstName, lastName, email"
     };
     const data = await dynamoDb.scan(candidateInfo).promise()
-    return data.Items;
+    callback(null, {
+      statusCode: 200,
+      body: JSON.stringify(data.Items)
+    });
 }

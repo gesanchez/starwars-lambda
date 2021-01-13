@@ -11,10 +11,14 @@ const { map } = require('lodash');
  * swapi de people
  * @param {*} event 
  */
-module.exports.films = async (event) => {
+module.exports.films = async (event, context, callback) => {
   const API_URL = 'https://swapi.py4e.com/api/films'
   const response = await axios.get(API_URL);
-  return map(response.data.results, x => adapterFilms.transform(x));
+  const result = map(response.data.results, x => adapterFilms.transform(x));
+  callback(null, {
+    statusCode: 200,
+    body: JSON.stringify(result)
+  });
 }
 
 /**
@@ -24,8 +28,12 @@ module.exports.films = async (event) => {
  * swapi de people
  * @param {*} event 
  */
-module.exports.people = async (event) => {
+module.exports.people = async (event, context, callback) => {
   const API_URL = 'https://swapi.py4e.com/api/people'
   const response = await axios.get(API_URL);
-  return map(response.data.results, x => adapterPeople.transform(x));
+  const result = map(response.data.results, x => adapterPeople.transform(x));
+  callback(null, {
+    statusCode: 200,
+    body: JSON.stringify(result)
+  });
 }
