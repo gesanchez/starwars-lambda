@@ -24,12 +24,13 @@ describe('@students #createUser', () => {
   });
   test('Deberia guardar la informacion de la base de datos', async() => {
     const callback = jest.fn()
-    const obj = { firstName: 'aas', lastName: 'asd', email: 'email@mail.com'}
-    const result = await createUser(obj, null, callback)
+    const obj = '{"firstName": "aas", "lastName": "asd", "email": "email@mail.com"}';
+    const objExpected = JSON.parse(obj);
+    const result = await createUser({body: obj}, null, callback)
     expect(AWS.DynamoDB.DocumentClient.prototype.put.mock.calls.length).toBe(1);
-    expect(AWS.DynamoDB.DocumentClient.prototype.put.mock.calls[0][0].Item.firstName).toBe(obj.firstName);
-    expect(AWS.DynamoDB.DocumentClient.prototype.put.mock.calls[0][0].Item.lastName).toBe(obj.lastName);
-    expect(AWS.DynamoDB.DocumentClient.prototype.put.mock.calls[0][0].Item.email).toBe(obj.email);
+    expect(AWS.DynamoDB.DocumentClient.prototype.put.mock.calls[0][0].Item.firstName).toBe(objExpected.firstName);
+    expect(AWS.DynamoDB.DocumentClient.prototype.put.mock.calls[0][0].Item.lastName).toBe(objExpected.lastName);
+    expect(AWS.DynamoDB.DocumentClient.prototype.put.mock.calls[0][0].Item.email).toBe(objExpected.email);
     expect(callback.mock.calls.length).toBe(1);
   });
 });

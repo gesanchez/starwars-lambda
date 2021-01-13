@@ -2,7 +2,6 @@
 
 const uuid = require('uuid');
 const AWS = require('aws-sdk'); 
-const qs = require('qs');
 const Validator = require('../schemas/students');
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
@@ -13,7 +12,7 @@ const dynamoDb = new AWS.DynamoDB.DocumentClient();
  * @param {*} event 
  */
 module.exports.createUser = async (event, context, callback) => {
-  const { firstName, lastName, email } = qs.parse(event);
+  const { firstName, lastName, email } = JSON.parse(event.body);
   try {
     const value = await Validator.validateAsync({firstName, lastName, email});
     const timestamp = new Date().getTime();
@@ -30,13 +29,12 @@ module.exports.createUser = async (event, context, callback) => {
       Item: data,
     };
     await dynamoDb.put(candidateInfo).promise()
-    callback(null, {
+    return callback(null, {
       statusCode: 200,
       body: JSON.stringify(data)
     });
-  }
-  catch (err) {
-    callback(null, {
+  } catch (err) {
+    return callback(null, {
       statusCode: 400,
       body: JSON.stringify(err.details)
     });
@@ -55,7 +53,7 @@ module.exports.listUser = async (event, context, callback) => {
       ProjectionExpression: "id, firstName, lastName, email"
     };
     const data = await dynamoDb.scan(candidateInfo).promise()
-    callback(null, {
+    return callback(null, {
       statusCode: 200,
       body: JSON.stringify(data.Items)
     });

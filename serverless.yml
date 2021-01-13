@@ -28,9 +28,9 @@ provider:
         - dynamodb:GetItem
         - dynamodb:PutItem
       Resource: "*"
-  package:
-    exclude:
-      - test/**
+package:
+  exclude:
+    - test/**
 
 functions:
   films:
