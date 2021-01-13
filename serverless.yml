@@ -8,7 +8,7 @@ org: germanesanchezq
 frameworkVersion: '2'
 
 plugins:
-  - serverless-openapi-documentation
+  - serverless-aws-documentation
 
 provider:
   name: aws
@@ -36,19 +36,39 @@ functions:
   films:
     handler: api/swapi.films
     events:
-      - http: GET /films
+      - http:
+          method: get
+          path: films
+          documentation:
+            summary: "films"
+            description: "Retornar el listado de peliculas de starwars"
   people:
     handler: api/swapi.people
     events:
-      - http: GET /people
+      - http:
+          method: get
+          path: people
+          documentation:
+            summary: "people"
+            description: "Retornar el listado de personajes de starwars"
   create_students:
     handler: api/students.createUser
     events:
-      - http: POST /create-user
+      - http:
+          method: post
+          path: create-user
+          documentation:
+            summary: "create_students"
+            description: "Crea un nuevo usuario"
   list_students:
     handler: api/students.listUser
     events:
-      - http: GET /list-users
+      - http:
+          method: get
+          path: list-users
+          documentation:
+            summary: "list_students"
+            description: "Retorna un listado de usuarios"
 
 resources: # CloudFormation template syntax from here on.
   Resources:
@@ -68,7 +88,21 @@ resources: # CloudFormation template syntax from here on.
 
 custom:
   documentation:
-    version: '1'
-    title: 'Starwars and Students Serverless'
-    description: 'Api para comunicarse con api de starwars y poder registrar estudiantes'
-    models: {}
+    api:
+      info:
+        version: '1'
+        title: 'Starwars and Students Serverless'
+        description: 'Api para comunicarse con api de starwars y poder registrar estudiantes'
+    resources:
+      -
+        path: "/people"
+        description: "Retorna el listado de personajes de starwars"
+      -
+        path: "/films"
+        description: "Retornar el listado de peliculas de starwars"
+      -
+        path: "/create-user"
+        description: "Crea un nuevo usuario"
+      -
+        path: "/list-users"
+        description: "Lista los usuarios registrados"

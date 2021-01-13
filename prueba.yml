@@ -1,0 +1,31 @@
+---
+swagger: "2.0"
+info:
+  description: "Api para comunicarse con api de starwars y poder registrar estudiantes"
+  version: "2021-01-13T04:05:40Z"
+  title: "starwars-dev"
+host: "yipg57h109.execute-api.us-east-1.amazonaws.com"
+basePath: "/dev"
+schemes:
+- "https"
+paths:
+  /create-user:
+    post:
+      summary: "create_students"
+      description: "Crea un nuevo usuario"
+      responses: {}
+  /films:
+    get:
+      summary: "films"
+      description: "Retornar el listado de peliculas de starwars"
+      responses: {}
+  /list-users:
+    get:
+      summary: "list_students"
+      description: "Retorna un listado de usuarios"
+      responses: {}
+  /people:
+    get:
+      summary: "people"
+      description: "Retornar el listado de personajes de starwars"
+      responses: {}

@@ -23,3 +23,8 @@ sls deploy
 npm run test
 ```
 
+#### Descargar documentacion
+```bash
+serverless downloadDocumentation --outputFileName=filename.yml
+```
+
