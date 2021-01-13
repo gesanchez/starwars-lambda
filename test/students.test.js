@@ -23,12 +23,14 @@ describe('@students #createUser', () => {
     jest.resetModules();
   });
   test('Deberia guardar la informacion de la base de datos', async() => {
+    const callback = jest.fn()
     const obj = { firstName: 'aas', lastName: 'asd', email: 'email@mail.com'}
-    const result = await createUser(obj)
+    const result = await createUser(obj, null, callback)
     expect(AWS.DynamoDB.DocumentClient.prototype.put.mock.calls.length).toBe(1);
     expect(AWS.DynamoDB.DocumentClient.prototype.put.mock.calls[0][0].Item.firstName).toBe(obj.firstName);
     expect(AWS.DynamoDB.DocumentClient.prototype.put.mock.calls[0][0].Item.lastName).toBe(obj.lastName);
     expect(AWS.DynamoDB.DocumentClient.prototype.put.mock.calls[0][0].Item.email).toBe(obj.email);
+    expect(callback.mock.calls.length).toBe(1);
   });
 });
 
@@ -38,8 +40,9 @@ describe('@students #listUser', () => {
     jest.resetModules();
   });
   test('Deberia leer la informacion de la base de datos', async() => {
-    const result = await listUser()
+    const callback = jest.fn()
+    const result = await listUser(null, null, callback);
     expect(AWS.DynamoDB.DocumentClient.prototype.scan.mock.calls.length).toBe(1);
-    expect(result.length).toBe(1);
+    expect(callback.mock.calls.length).toBe(1);
   });
 })
